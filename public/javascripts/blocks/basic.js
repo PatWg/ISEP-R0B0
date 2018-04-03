@@ -188,7 +188,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
             {
                 "type": "field_input",
                 "name": "VALUE",
-                "text": "default"
+                "text": ""
             }
         ],
         "inputsInline": false,

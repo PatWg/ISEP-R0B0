@@ -9,7 +9,6 @@ router.get('/', function (req, res, next) {
         fs: fs
     });
 });
-
 router.post('/', function (req, res, next) {
     var hiddenCode = req.body.pythonCode;
     fs.writeFile("untitled.py", hiddenCode, function (err) {

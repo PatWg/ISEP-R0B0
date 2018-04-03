@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title><%= title %></title>
+    <title> <%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css'/>
     <script src="/javascripts/blockly_compressed.js"></script>
     <script src="/javascripts/python_compressed.js"></script>
     <script src="/javascripts/blocks_compressed.js"></script>
-    <script src="/javascripts/msg/js/fr.js"></script>
+    <script src="/javascripts/msg/js/en.js"></script>
+    <script src="/javascripts/blocks/custom.js"></script>
+    <script src="/javascripts/generators/python/custom.js"></script> 
+    <script src="/javascripts/blocks/input.js"></script>
+    <script src="/javascripts/generators/python/input.js"></script>
+    <script src="/javascripts/generators/python/basic.js"></script>
+    <script src="/javascripts/blocks/basic.js"></script>
+    
 </head>
 <body>
 <div id="main">
@@ -375,7 +382,7 @@
     <category name="Functions" colour="#9A5CA6" custom="PROCEDURE"></category>
     <category name="Basic" colour="#6d5ba5">
         <block type="show_number">
-            <field name="NAME">0</field>
+            <field name="VALUE">0</field>
         </block>
         <block type="show_leds">
             <field name="LED1_1">FALSE</field>
@@ -410,11 +417,28 @@
         <block type="pause">
             <field name="VALUE">100</field>
         </block>
-        <block type="show_icon">
+        <block type="show_icon" colour="#6d5ba5">
             <field name="ICON">HEART</field>
         </block>
     </category>
-</xml>
+    <category name="Custom" colour="#A6745C">
+        <block type="string_conversion">
+            <field name="NAME">default</field>
+          </block>
+         
+      </category> 
+      <category name="Input" colour="#A6745C">
+        <block type="start"></block>
+        <block type="button">
+            <field name="NAME">A</field>
+          </block>
+          <block type="forever"></block>
+          <block type="gesture">
+            <field name="NAME">up</field>
+          </block>
+      </category>
+      
+    </xml>
 
 
 <script>
@@ -422,13 +446,38 @@
         toolbox: document.getElementById('toolbox')
     });
     var pythonArea = document.getElementById('pythonArea');
-
+    
+    //workspace.addChangeListener(myUpdateFunction);
+    workspace.addChangeListener(mirrorEvent);
+    /*
     function myUpdateFunction(event) {
         pythonArea.value = Blockly.Python.workspaceToCode(workspace);
+        console.log(pythonArea.value);
         document.getElementById('hiddenPythonCode').value = Blockly.Python.workspaceToCode(workspace);
         document.getElementById('hiddenWorkspace').value = Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(workspace));
-    }
-    workspace.addChangeListener(myUpdateFunction);
+    }*/
+    
+    function mirrorEvent(primaryEvent) {
+        pythonArea.value = Blockly.Python.workspaceToCode(workspace);
+        //console.log(pythonArea.value);
+        var code= pythonArea.value;
+        document.getElementById('hiddenPythonCode').value = Blockly.Python.workspaceToCode(workspace);
+        document.getElementById('hiddenWorkspace').value = Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(workspace));
+       if (primaryEvent.type == Blockly.Events.UI) {
+           return;  // Don't mirror UI events.
+       }
+      // Convert event to JSON.  This could then be transmitted across the net.
+      var json1 = primaryEvent.toJson();
+      //console.log(json1);
+      // Convert JSON back into an event, then execute it.
+      json1.pycode=code;
+      console.log(json1.pycode);
+        var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance
+        xmlhttp.open("POST", "http://localhost:3000");
+        xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xmlhttp.send(JSON.stringify(json1));   
+}
+
 </script>
 </body>
 </html>
