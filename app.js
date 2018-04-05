@@ -51,11 +51,12 @@ console.log(jsondata.pycode);
 //Bulk insert using nested array [ [a,b],[c,d] ] will be flattened to (a,b),(c,d)
 if (jsondata.type=='create')
 {
-  values.push([jsondata.type,jsondata.blockId,jsondata.ids]);
+  values.push([jsondata.type,jsondata.blockId,jsondata.ids,jsondata.time,jsondata.pycode]);
   console.log(values);
+  console.log(jsondata.time);
   
   
-  connection.query('INSERT INTO createblocks (type, blockId , ids) VALUES ?', [values], function(err) {
+  connection.query('INSERT INTO createblocks (type, blockId , ids, time,code) VALUES ?', [values], function(err) {
     if(err) {
        res.send('Error');
     }
@@ -66,10 +67,11 @@ if (jsondata.type=='create')
 }
 if (jsondata.type=='delete')
 {
-  values.push([jsondata.type,jsondata.blockId,jsondata.ids]);
+  values.push([jsondata.type,jsondata.blockId,jsondata.ids,jsondata.time,jsondata.pycode]);
   console.log(values);
+  console.log(jsondata.time);
   
-  connection.query('INSERT INTO deleteblocks (type, blockId , ids) VALUES ?', [values], function(err) {
+  connection.query('INSERT INTO deleteblocks (type, blockId , ids, time,code) VALUES ?', [values], function(err) {
     if(err) {
        res.send('Error');
     }
@@ -81,10 +83,11 @@ if (jsondata.type=='delete')
 
 if (jsondata.type=='change')
 {
-  values.push([jsondata.type,jsondata.blockId,jsondata.element,jsondata.name,jsondata.newValue]);
+  values.push([jsondata.type,jsondata.blockId,jsondata.element,jsondata.name,jsondata.newValue,jsondata.time,jsondata.pycode]);
   console.log(values);
+  console.log(jsondata.time);
   
-  connection.query('INSERT INTO changeblocks (type, blockId , ids) VALUES ?', [values], function(err) {
+  connection.query('INSERT INTO changeblocks (type, blockId , element, name, newvalue, time,code) VALUES ?', [values], function(err) {
     if(err) {
        res.send('Error');
     }
@@ -99,10 +102,11 @@ if (jsondata.type=='move')
  
   
   if(jsondata.newParentId === undefined){
-    values.push([jsondata.type,jsondata.blockId,jsondata.newCoordinate]);
+    values.push([jsondata.type,jsondata.blockId,jsondata.newCoordinate,jsondata.time,jsondata.pycode]);
     console.log(values);
+    console.log(jsondata.time);
     console.log(jsondata.newCoordinate);
-    connection.query('INSERT INTO changeblocks (type, blockId , ids) VALUES ?', [values], function(err) {
+    connection.query('INSERT INTO moveblocks (type, blockId , newcoordinate, time,code) VALUES ?', [values], function(err) {
       if(err) {
          res.send('Error');
       }
@@ -112,11 +116,14 @@ if (jsondata.type=='move')
   });
 }
 else {
-  values.push([jsondata.type,jsondata.blockId,jsondata.newParentId,jsondata.newInputName]);
+  jsondata.type='combine';
+  values.push([jsondata.type,jsondata.blockId,jsondata.newParentId,jsondata.newInputName,jsondata.time,jsondata.pycode]);
   console.log(values);
+  console.log(jsondata.time);
   console.log(jsondata.newParentId);
+  console.log(jsondata.type);
   
-  connection.query('INSERT INTO changeblocks (type, blockId , ids) VALUES ?', [values], function(err) {
+  connection.query('INSERT INTO combineblocks (type, blockId , parentids,inputname, time,code) VALUES ?', [values], function(err) {
     if(err) {
        res.send('Error');
     }

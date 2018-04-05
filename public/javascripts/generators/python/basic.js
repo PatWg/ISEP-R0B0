@@ -69,9 +69,9 @@ Blockly.Python['show_string'] = function(block) {
     Blockly.Python.definitions_['import microbit'] = 'from microbit import *';
     var text_value = Blockly.Python.quote_(block.getFieldValue('VALUE'));
     if (text_value.length > 1) {
-        return 'display.scroll(\'' + text_value + '\')\n';
+        return 'display.scroll(' + text_value + ')\n';
     }
-    return 'display.show(\'' + text_value + '\')\n';
+    return 'display.show(' + text_value + ')\n';
 };
 
 

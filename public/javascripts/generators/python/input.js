@@ -35,10 +35,14 @@ Blockly.Python['start'] = function(block) {
 var statements_name = Blockly.Python.statementToCode(block, 'NAME');
 // TODO: Assemble Python into code variable.
 Blockly.Python.definitions_['import microbit'] = 'from microbit import *';
-statements_name = Blockly.Python.addLoopTrap(statements_name, block.id)||
-Blockly.Python.PASS;
-var data = statements_name.trim();
-return data;
+statements_name = Blockly.Python.addLoopTrap(statements_name, block.id);
+var data=Blockly.Python.PASS;
+console.log('loop');
+console.log(statements_name);
+console.log('pass data');
+console.log(data);
+var result=statements_name.replace(/^\s+|\s+$/gm,'');
+return result;
 };
 
   Blockly.Python['forever'] = function(block) {

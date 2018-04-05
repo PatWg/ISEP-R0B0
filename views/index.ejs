@@ -468,9 +468,11 @@
        }
       // Convert event to JSON.  This could then be transmitted across the net.
       var json1 = primaryEvent.toJson();
+      var timeStamp = Math.floor(Date.now() / 1000);
       //console.log(json1);
       // Convert JSON back into an event, then execute it.
       json1.pycode=code;
+      json1.time=timeStamp;
       console.log(json1.pycode);
         var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance
         xmlhttp.open("POST", "http://localhost:3000");
