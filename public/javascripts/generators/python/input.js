@@ -31,19 +31,19 @@ Blockly.Python['button'] = function(block) {
   return [result+data];
   };
 
-Blockly.Python['start'] = function(block) {
-var statements_name = Blockly.Python.statementToCode(block, 'NAME');
-// TODO: Assemble Python into code variable.
-Blockly.Python.definitions_['import microbit'] = 'from microbit import *';
-statements_name = Blockly.Python.addLoopTrap(statements_name, block.id);
-var data=Blockly.Python.PASS;
-console.log('loop');
-console.log(statements_name);
-console.log('pass data');
-console.log(data);
-var result=statements_name.replace(/^\s+|\s+$/gm,'');
-return result;
-};
+  Blockly.Python['start'] = function(block) {
+  var statements_name = Blockly.Python.statementToCode(block,'NAME');
+  statements_name = Blockly.Python.addLoopTrap(statements_name, block.id) ||
+  Blockly.Python.PASS;
+  // TODO: Assemble Python into code variable.
+  //var result=statements_name.replace(/^\s+|\s+$/gm,'');
+  //var len=statements_name.length;
+  //var spi = statements_name.slice();
+  //Blockly.Python.definitions_['import microbit'] = 'from microbit import *';
+  //var code = statements_name.replace(/^\s+\n/, '');
+  
+  return [statements_name];
+  };
 
   Blockly.Python['forever'] = function(block) {
     var statements_name = Blockly.Python.statementToCode(block, 'NAME');

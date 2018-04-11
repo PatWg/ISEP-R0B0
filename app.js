@@ -43,19 +43,12 @@ app.post('/', function(req, res) {
 var jsondata = req.body;
 var values = [];
   
-
-  console.log('data entered!!!!');
-console.log(jsondata.type);
-console.log(jsondata);
-console.log(jsondata.pycode);
 //Bulk insert using nested array [ [a,b],[c,d] ] will be flattened to (a,b),(c,d)
 if (jsondata.type=='create')
 {
   values.push([jsondata.type,jsondata.blockId,jsondata.ids,jsondata.time,jsondata.pycode]);
   console.log(values);
   console.log(jsondata.time);
-  
-  
   connection.query('INSERT INTO createblocks (type, blockId , ids, time,code) VALUES ?', [values], function(err) {
     if(err) {
        res.send('Error');
@@ -67,18 +60,41 @@ if (jsondata.type=='create')
 }
 if (jsondata.type=='delete')
 {
-  values.push([jsondata.type,jsondata.blockId,jsondata.ids,jsondata.time,jsondata.pycode]);
   console.log(values);
-  console.log(jsondata.time);
-  
-  connection.query('INSERT INTO deleteblocks (type, blockId , ids, time,code) VALUES ?', [values], function(err) {
-    if(err) {
-       res.send('Error');
-    }
-   else {
-       res.send('Success');
-    }
-  });
+  console.log(jsondata.ids.length);
+  if(jsondata.ids.length==1)
+  {
+    values.push([jsondata.type,jsondata.blockId,jsondata.ids,jsondata.time,jsondata.pycode]);
+    console.log(jsondata.type);
+    console.log(jsondata.ids);
+    console.log('if condition');
+    connection.query('INSERT INTO deleteblocks (type, blockId , ids, time,code) VALUES ?', [values], function(err) {
+      if(err) {
+         res.send('Error');
+      }
+      else {
+         res.send('Success');
+      }
+    });
+
+  }
+  else
+  {
+    var myArrString = JSON.stringify(jsondata.ids);
+    jsondata.type='delete_group_of_blocks';
+    values.push([jsondata.type,jsondata.blockId,myArrString,jsondata.time,jsondata.pycode]);
+    console.log(jsondata.type);
+    console.log(myArrString);
+    console.log('else condition');
+    connection.query('INSERT INTO deleteblocks (type, blockId , ids, time,code) VALUES ?', [values], function(err) {
+      if(err) {
+           res.send('Error');
+      }
+      else {
+           res.send('Success');
+      }
+    });
+  }
 }
 
 if (jsondata.type=='change')
@@ -99,40 +115,50 @@ if (jsondata.type=='change')
 
 if (jsondata.type=='move')
 { 
- 
-  
-  if(jsondata.newParentId === undefined){
-    values.push([jsondata.type,jsondata.blockId,jsondata.newCoordinate,jsondata.time,jsondata.pycode]);
-    console.log(values);
-    console.log(jsondata.time);
-    console.log(jsondata.newCoordinate);
-    connection.query('INSERT INTO moveblocks (type, blockId , newcoordinate, time,code) VALUES ?', [values], function(err) {
-      if(err) {
-         res.send('Error');
-      }
-     else {
-         res.send('Success');
-      }
-  });
-}
-else {
-  jsondata.type='combine';
-  values.push([jsondata.type,jsondata.blockId,jsondata.newParentId,jsondata.newInputName,jsondata.time,jsondata.pycode]);
-  console.log(values);
-  console.log(jsondata.time);
-  console.log(jsondata.newParentId);
-  console.log(jsondata.type);
-  
-  connection.query('INSERT INTO combineblocks (type, blockId , parentids,inputname, time,code) VALUES ?', [values], function(err) {
-    if(err) {
-       res.send('Error');
-    }
-   else {
-       res.send('Success');
-    }
-});
-}
+  if(jsondata.newParentId !== undefined)
+  {
+    jsondata.type='combine'; 
+    //var myArrString = JSON.stringify(jsondata.ids); 
+    values.push([jsondata.type,jsondata.blockId,jsondata.newParentId,jsondata.newInputName,jsondata.time,jsondata.pycode]); 
+    console.log(values); 
+    console.log(jsondata.time); 
+    console.log(jsondata.newParentId); 
+    console.log(jsondata.type); 
+    connection.query('INSERT INTO combineblocks (type, blockId , parentids,inputname, time,code) VALUES ?', [values], function(err) { 
+      if(err) { 
+        res.send('Error'); 
+      } 
+      else { 
+        res.send('Success'); 
+      } 
+    });
   }
+  else
+  {
+    connection.query('SELECT blockId FROM combineblocks WHERE blockId ='+ mysql.escape(jsondata.blockId), function(err,result,fields){ 
+      if (err) throw err;
+      console.log(result);
+      var data = result;
+      console.log(data);
+      console.log('true');
+    });
+    if(data !== null)
+    {
+      jsondata.type='split block';
+      console.log('not null');
+    }
+    values.push([jsondata.type,jsondata.blockId,jsondata.newCoordinate,jsondata.time,jsondata.pycode]);
+    console.log(jsondata.values);
+    connection.query('INSERT INTO moveblocks (type, blockId , newcoordinate, time,code) VALUES ?', [values], function(err) {
+    if(err) {
+      res.send('Error');
+    }
+    else {
+      res.send('Success');
+    }
+    });
+  }
+}
 });
 
 // view engine setup
