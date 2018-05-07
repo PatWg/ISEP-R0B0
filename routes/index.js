@@ -7,6 +7,7 @@ router.get('/', function (req, res, next) {
     res.render('index', {
         title: 'ISEP-R0B0 | Code Editor',
         fs: fs
+        
     });
 });
 router.post('/', function (req, res, next) {
@@ -14,6 +15,7 @@ router.post('/', function (req, res, next) {
     fs.writeFile("untitled.py", hiddenCode, function (err) {
         if (err) {
             console.log(err);
+            res.end('end');
         } else {
             console.log("File successfully created...");
             console.log("Now downloading file...");
@@ -21,8 +23,10 @@ router.post('/', function (req, res, next) {
             console.log(file);
             res.download(file);
             console.log("File downloaded...");
+            res.end('end');
         }
     });
+    
 });
 
 module.exports = router;

@@ -419,12 +419,6 @@
             <field name="ICON">HEART</field>
         </block>
     </category>
-    <category name="Custom" colour="#A6745C">
-        <block type="string_conversion">
-            <field name="NAME">default</field>
-          </block>
-         
-      </category> 
       <category name="Input" colour="#A6745C">
         <block type="start"></block>
         <block type="button">
@@ -444,6 +438,7 @@
         toolbox: document.getElementById('toolbox')
     });
     var pythonArea = document.getElementById('pythonArea');
+    
     
     //workspace.addChangeListener(myUpdateFunction);
     workspace.addChangeListener(mirrorEvent);
@@ -467,17 +462,30 @@
       // Convert event to JSON.  This could then be transmitted across the net.
       var json1 = primaryEvent.toJson();
       var timeStamp = Math.floor(Date.now() / 1000);
-      //console.log(json1);
+      console.log(json1);
+      if (json1.type == 'create')
+      {
+        var spl = eval(json1);
+        console.log(spl);
+        spl = spl.xml;
+       
+        spl = spl.split('type');
+        spl = spl[1];
+        spl = spl.split('"');
+        var block= spl[1];
+        json1.block= block;
+      }
+      
       // Convert JSON back into an event, then execute it.
       json1.pycode=code;
       json1.time=timeStamp;
       console.log(json1.pycode);
-        var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance
-        xmlhttp.open("POST", "http://localhost:3000");
-        xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        xmlhttp.send(JSON.stringify(json1));   
-}
-
+      var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance
+      var url = "http://localhost:3000";
+      xmlhttp.open("POST", url,true);
+      xmlhttp.setRequestHeader("Content-Type", "application/json");
+      xmlhttp.send(JSON.stringify(json1));
+    }
 </script>
 </body>
 </html>
