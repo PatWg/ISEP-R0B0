@@ -7,7 +7,8 @@ Blockly.Constants.Input.HUE = 250;
 Blockly.Blocks.input.HUE = Blockly.Constants.Input.HUE;
 
 Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
-    {
+  
+  {
         "type": "button",
         "message0": "Button %1 is pressed %2 %3",
         "args0": [
@@ -41,22 +42,6 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "tooltip": "",
         "helpUrl": ""
       },
-    {
-        "type": "start",
-        "message0": "On Start %1 %2",
-        "args0": [
-          {
-            "type": "input_dummy"
-          },
-          {
-            "type": "input_statement",
-            "name": "NAME"
-          }
-        ],
-        "colour": 230,
-        "tooltip": "",
-        "helpUrl": ""
-       },
        {
         "type": "forever",
         "message0": "Forever %1 %2",
@@ -143,7 +128,23 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "colour": 230,
         "tooltip": "",
         "helpUrl": ""
-      }
+      },
+      {
+        "type": "first",
+        "message0": "Start %1 %2",
+        "args0": [
+          {
+            "type": "input_dummy"
+          },
+          {
+            "type": "input_statement",
+            "name": "NAME"
+          }
+        ],
+        "colour": 230,
+        "tooltip": "",
+        "helpUrl": ""
+       }
     
 ]); // END JSON EXTRACT (Do not delete this comment.)
 

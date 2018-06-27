@@ -413,3 +413,36 @@ Blockly.Generator.prototype.finish = undefined;
  * @return {string} Legal line of code.
  */
 Blockly.Generator.prototype.scrubNakedValue = undefined;
+
+/**
+* Generate code representing the statement.  Indent the code.
+* @param {!Blockly.Block} block The block containing the input.
+* @param {string} name The name of the input.
+* @return {string} Generated code or '' if no blocks are connected.
+*/
+
+Blockly.Generator.prototype.statementToCodestart = function(block, name) {
+ var targetBlock = block.getInputTargetBlock(name);
+ var code = this.blockToCode(targetBlock);
+ // Value blocks must return code and order of operations info.
+ // Statement blocks must only return code.
+ goog.asserts.assertString(code, 'Expecting code from statement block "%s".',
+     targetBlock && targetBlock.type);
+ return code;
+};
+
+/**
+ * Add an infinite loop trap to the contents of a loop.
+ * If loop is empty, add a statment prefix for the loop block.
+ * @param {string} branch Code for loop contents.
+ * @param {string} id ID of enclosing block.
+ * @return {string} Loop contents, with infinite loop trap added.
+ */
+Blockly.Generator.prototype.addLoopTrapstart = function(branch, id) {
+  id = id.replace(/\$/g, '$$$$');  // Issue 251.
+  if (this.INFINITE_LOOP_TRAP) {
+    branch = this.INFINITE_LOOP_TRAP.replace(/%1/g, '\'' + id + '\'') + branch;
+  }
+  
+  return branch;
+};

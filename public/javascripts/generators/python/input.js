@@ -31,18 +31,6 @@ Blockly.Python['button'] = function(block) {
   return [result+data];
   };
 
-  Blockly.Python['start'] = function(block) {
-  var statements_name = Blockly.Python.statementToCode(block,'NAME');
-  console.log(statements_name);
-  var data=statements_name;
-  data=data.replace('  ','');
-  statements_name= Blockly.Python.addLoopTrap(statements_name, block.id) ||
-  Blockly.Python.PASS;
-  // TODO: Assemble Python into code variable.
-  statements_name=statements_name.replace('  ','');
-  return statements_name+data;
-  };
-
   Blockly.Python['forever'] = function(block) {
     var statements_name = Blockly.Python.statementToCode(block, 'NAME');
     // TODO: Assemble Python into code variable.
@@ -109,7 +97,14 @@ Blockly.Python['button'] = function(block) {
       return [result+data];
   };
   
-
+  Blockly.Python['first'] = function(block) {
+    var statements_name = Blockly.Python.statementToCodestart(block, 'NAME');
+    // TODO: Assemble Python into code variable.
+    
+    statements_name = Blockly.Python.addLoopTrapstart(statements_name, block.id) ||
+    Blockly.Python.PASS;
+    return [statements_name];
+  };
 
 
 
