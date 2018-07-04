@@ -1,10 +1,10 @@
 'use strict';
 
-goog.provide('Blockly.Blocks.lineintermediate');  // Deprecated
-goog.provide('Blockly.Constants.Lineintermediate');
+goog.provide('Blockly.Blocks.lineadvanced');  // Deprecated
+goog.provide('Blockly.Constants.Lineadvanced');
 goog.require('Blockly.Blocks');
-Blockly.Constants.Lineintermediate.HUE = 250;
-Blockly.Blocks.lineintermediate.HUE = Blockly.Constants.Lineintermediate.HUE;
+Blockly.Constants.Lineadvanced.HUE = 250;
+Blockly.Blocks.lineadvanced.HUE = Blockly.Constants.Lineadvanced.HUE;
 Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     {
     "type": "start",
@@ -33,29 +33,24 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     "helpUrl": ""
   },
   {
-    "type": "if_condition",
-    "message0": "%1 %2",
+    "type": "adconditions",
+    "message0": "IF %1",
     "args0": [
-      {
-        "type": "field_input",
-        "name": "NAME",
-        "text": "if"
-      },
       {
         "type": "field_dropdown",
         "name": "NAME",
         "options": [
           [
-            "curve left",
-            "LEFT"
-          ],
-          [
-            "curve right",
+            "Right sensor detects line",
             "RIGHT"
           ],
           [
-            "no curve",
-            "STRAIGHT"
+            "Left sensor detects line",
+            "Left"
+          ],
+          [
+            "None of the sensor detects line",
+            "Straight"
           ]
         ]
       }
@@ -67,24 +62,70 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     "helpUrl": ""
   },
   {
-    "type": "conditions",
-    "message0": "%1",
+    "type": "motor",
+    "message0": "motor %1 %2 ,    motor %3 %4",
     "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "NAME1",
+        "options": [
+          [
+            "Right",
+            "RIGHT"
+          ],
+          [
+            "Left",
+            "LEFT"
+          ]
+        ]
+      },
       {
         "type": "field_dropdown",
         "name": "NAME",
         "options": [
           [
-            "TURN LEFT",
-            "LEFT"
+            "fast",
+            "FAST"
           ],
           [
-            "TURN RIGHT",
+            "medium",
+            "MEDIUM"
+          ],
+          [
+            "slow",
+            "SLOW"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "NAME",
+        "options": [
+          [
+            "Right",
             "RIGHT"
           ],
           [
-            "Go STRAIGHT",
-            "STRAIGHT"
+            "Left",
+            "LEFT"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "NAME",
+        "options": [
+          [
+            "fast",
+            "FAST"
+          ],
+          [
+            "medium",
+            "MEDIUM"
+          ],
+          [
+            "slow",
+            "SLOW"
           ]
         ]
       }

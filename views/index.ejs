@@ -466,25 +466,36 @@
       <category name="Line Follower Intermediate" colour="#A6745C">
         <block type="start"></block>
         <block type="lineSensorleft">
-            <field name="NAME">Left</field>
-          </block>
-          <block type="lineSensorright">
-            <field name="NAME">Right</field>
-          </block>
-          <block type="curveright">
-            <field name="NAME">Curve Right</field>
-            <field name="OPERATION">Turn Right</field>
-          </block>
-          <block type="curveleft">
-            <field name="NAME">Curve Left</field>
-            <field name="OPERATION">Turn Left</field>
-          </block>
-          <block type="nocurve">
-            <field name="NAME">No Curve</field>
-            <field name="OPERATION">Straight</field>
-          </block>          
+        </block>
+        <block type="lineSensorright">
+        </block>
+        <block type="if_condition">
+            <field name="NAME">IF</field>
+            <field name="NAME">LEFT</field>
+        </block>     
+        <block type="conditions">
+            <field name="NAME">LEFT</field>
+        </block>
         <block type="end"></block>
       </category>
+      <category name="Line Follower Advanced" colour="#A6745C">
+        <block type="start"></block>
+        <block type="lineSensorleft">
+        </block>
+        <block type="lineSensorright">
+        </block>
+        <block type="adconditions">
+            <field name="NAME">LEFT</field>
+        </block>
+        <block type="motor">
+            <field name="NAME1">RIGHT</field>
+            <field name="NAME">FAST</field>
+            <field name="NAME">RIGHT</field>
+            <field name="NAME">FAST</field>
+          </block>
+        <block type="end"></block>
+      </category>
+
     </xml>
 
 
